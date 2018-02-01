@@ -22,6 +22,7 @@ public final class TodoContract {
         public static final String COLUMN_TODO_DATE_DUE = "dateDue";
         public static final String COLUMN_TODO_DATE_CREATED = "dateCreated";
         public static final String COLUMN_TODO_COMPLETED = "completed";
+        public static final String COLUMN_TODO_PRIORITY = "priority";
 
         //values for categories
         public static final int CATEGORY_OTHER = 0;

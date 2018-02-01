@@ -1,6 +1,37 @@
 <resources>
     <string name="app_name">Todos</string>
 
-    <!--menu text to add new todo-->
+    <!--menu text to add new todos-->
     <string name="list_menu_new">New Todo</string>
+
+    <!--menu text to save todos-->
+    <string name="add_todo_menu_save">Save</string>
+
+    <!--editor general label-->
+    <string name="editor_label_general">General</string>
+
+    <string name="editor_title">Title</string>
+
+    <string name="editor_description">Description</string>
+
+    <string name="editor_label_category">Category</string>
+
+    <string name="editor_category">Choose a Category</string>
+
+    <string name="editor_label_details">Details</string>
+
+    <string name="editor_due_date">Select Date Due</string>
+
+    <string name="editor_priority">Select Priority</string>
+
+    <!--strings for the category options -->
+    <string name="category_work">Work</string>
+    <string name="category_home">Home</string>
+    <string name="category_other">Other</string>
+    <string name="category_fixing">Repairs</string>
+    <string name="category_finances">Finances</string>
+    <string name="category_shopping">Shopping</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

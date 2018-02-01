@@ -28,8 +28,9 @@ public class TodoListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            // If the user selected the new todos will open the editor activity
             case R.id.new_todo:
-                Intent intent = new Intent(this,TodoListActivity.class);
+                Intent intent = new Intent(this,AddTodoActivity.class);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
