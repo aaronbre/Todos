@@ -1,13 +1,16 @@
 <resources>
     <string name="app_name">Todos</string>
 
+
     <!--menu text to add new todos-->
-    <string name="list_menu_new">New Todo</string>
+    <string name="delete_all_todos">Delete all todos</string>
 
     <!--menu text to save todos-->
     <string name="add_todo_menu_save">Save</string>
 
-    <!--editor general label-->
+    <string name="empty_view">There are no todos as of now, Add to the list via the menu button</string>
+
+    <!--editor labels and hits-->
     <string name="editor_label_general">General</string>
 
     <string name="editor_title">Title</string>
@@ -23,6 +26,7 @@
     <string name="editor_due_date">Select Date Due</string>
 
     <string name="editor_priority">Select Priority</string>
+    <!--end editor label and hints-->
 
     <!--strings for the category options -->
     <string name="category_work">Work</string>
@@ -31,7 +35,10 @@
     <string name="category_fixing">Repairs</string>
     <string name="category_finances">Finances</string>
     <string name="category_shopping">Shopping</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--end category options-->
+    
+    <!--unsuccesfull insert message-->
+    <string name="unsuccessfull_database_add_toast">Sorry was not able to enter the todo into the DB</string>
+    <!--succesfull insert message-->
+    <string name="successfull_database_add_toast">Todo was added to the Database</string>
 </resources>

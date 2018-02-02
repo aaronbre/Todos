@@ -14,7 +14,7 @@ public class TodoDbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     //Constant with the intial database statements
-    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE" + TodoContract.TodosEntry.TABLE_NAME + " (" +
+    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + TodoContract.TodosEntry.TABLE_NAME + " (" +
             TodoContract.TodosEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             TodoContract.TodosEntry.COLUMN_TODO_TITLE + " TEXT NOT NULL, " +
             TodoContract.TodosEntry.COLUMN_TODO_DESCRIPTION + " TEXT, " +

@@ -94,6 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/editor_priority"
+                android:inputType="number"
                 style="@style/EditorFieldStyle"/>
 
             <EditText
@@ -101,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/editor_due_date"
+                android:inputType="date"
                 style="@style/EditorFieldStyle"/>
         </LinearLayout>
     </LinearLayout>

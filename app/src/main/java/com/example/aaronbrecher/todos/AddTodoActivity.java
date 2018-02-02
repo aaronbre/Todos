@@ -2,6 +2,8 @@ package com.example.aaronbrecher.todos;
 
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
+import android.content.ContentValues;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,10 +16,14 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.aaronbrecher.todos.data.TodoContract;
 
+import java.net.URL;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.zip.Inflater;
 
 public class AddTodoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
@@ -26,6 +32,8 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
     private EditText mDescriptionText;
     private EditText mDueDateText;
     private EditText mPriorityText;
+
+    private long mUnixDueDate;
 
     private Spinner mCategorySpinner;
     private int mCategory;
@@ -53,6 +61,8 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
                     showDatePickerDialog();
+                    //after the date has been picked remove the focus so cannot edit it text mode
+                    v.clearFocus();
                 }
             }
         });
@@ -112,13 +122,23 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
     private void insertTodo(){
         String todoTitle = mTitleText.getText().toString().trim();
         String todoDescription = mDescriptionText.getText().toString().trim();
+        long todoDateStart = System.currentTimeMillis()/1000;
+        boolean todoCompleted = false;
+        //parse the priority to get an intger number if the field is empty will be null
+        //in that case will set to default of 0
         Integer todoPriority = parsePriority(mDescriptionText.getText().toString());
+        if(todoPriority == null) todoPriority = 0;
+        ContentValues values = createContentValues(todoTitle, todoDescription, todoPriority, todoDateStart, mUnixDueDate);
+        Uri uri = getContentResolver().insert(TodoContract.TodosEntry.CONTENT_URI, values);
+        if (uri != null) Toast.makeText(this, getString(R.string.successfull_database_add_toast) , Toast.LENGTH_SHORT).show();
+        else Toast.makeText(this, getString(R.string.unsuccessfull_database_add_toast), Toast.LENGTH_SHORT).show();
+
     }
 
     /**
-     * Parses the priority and returns the integer value - will return null if not a number
-     * @param s
-     * @return
+     * Parses the priority and returns the integer value - will return null if an empty space
+     * @param s EditText text value
+     * @return Integer value of the field
      */
     private Integer parsePriority(String s){
         Integer priority;
@@ -128,6 +148,26 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
         }catch (NumberFormatException e){
             return null;
         }
+    }
+
+    /**
+     * Function to create the Content Value object to be used in insert command
+     * @param title
+     * @param description
+     * @param priority
+     * @param startDate
+     * @param dueDate
+     * @return
+     */
+    ContentValues createContentValues(String title, String description, int priority, long startDate, long dueDate){
+        ContentValues values = new ContentValues();
+        values.put(TodoContract.TodosEntry.COLUMN_TODO_TITLE, title);
+        values.put(TodoContract.TodosEntry.COLUMN_TODO_DESCRIPTION, description);
+        values.put(TodoContract.TodosEntry.COLUMN_TODO_PRIORITY, priority);
+        values.put(TodoContract.TodosEntry.COLUMN_TODO_DATE_CREATED, startDate);
+        values.put(TodoContract.TodosEntry.COLUMN_TODO_DATE_DUE, dueDate);
+        values.put(TodoContract.TodosEntry.COLUMN_TODO_COMPLETED, false);
+        return values;
     }
 
     /**
@@ -148,7 +188,8 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_todo_save:
-                //save the todos
+                insertTodo();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -167,5 +208,8 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String dateText = dayOfMonth + "/" + month + "/" + year;
         mDueDateText.setText(dateText);
+        Calendar calendar = new GregorianCalendar(year,month,dayOfMonth);
+        mUnixDueDate = calendar.getTimeInMillis()/1000;
+        Log.d("DATE", "onDateSet: " + mUnixDueDate);
     }
 }
