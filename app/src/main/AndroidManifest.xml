@@ -9,21 +9,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TodoListActivity"
-        style = "@style/Base.Theme.AppCompat.Light">
+        <activity
+            android:name=".TodoListActivity"
+            style="@style/Base.Theme.AppCompat.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddTodoActivity"
-            android:parentActivityName=".TodoListActivity"></activity>
+        <activity
+            android:name=".AddTodoActivity"
+            android:parentActivityName=".TodoListActivity" />
 
         <provider
-            android:authorities="com.example.aaronbrecher.todos"
             android:name=".data.TodoProvider"
-            android:exported="false"/>
+            android:authorities="com.example.aaronbrecher.todos"
+            android:exported="false" />
+
+        <activity android:name=".TodoDetailActivity"></activity>
     </application>
 
 </manifest>

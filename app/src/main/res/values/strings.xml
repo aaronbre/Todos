@@ -36,7 +36,7 @@
     <string name="category_finances">Finances</string>
     <string name="category_shopping">Shopping</string>
     <!--end category options-->
-    
+
     <!--unsuccesfull insert message-->
     <string name="unsuccessfull_database_add_toast">Sorry was not able to enter the todo into the DB</string>
     <!--succesfull insert message-->

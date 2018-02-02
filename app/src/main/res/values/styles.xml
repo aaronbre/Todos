@@ -15,4 +15,10 @@
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
     </style>
 
+    <style name="ListItemPriority">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:color">@color/colorAccent</item>
+    </style>
+
 </resources>
