@@ -106,11 +106,9 @@ public class TodoProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        final int match = mUriMatcher.match(uri);
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
         long id = database.insert(TodoContract.TodosEntry.TABLE_NAME, null, contentValues);
-
         if(id == -1){
             Log.e(TAG, "insert into database failed for" + uri);
         }

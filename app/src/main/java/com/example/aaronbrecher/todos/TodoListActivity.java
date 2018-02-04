@@ -1,6 +1,7 @@
 package com.example.aaronbrecher.todos;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,6 +48,15 @@ public class TodoListActivity extends AppCompatActivity implements LoaderManager
 
         mCursorAdapter = new TodosCursorAdapter(this, null);
         mListView.setAdapter(mCursorAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(TodoListActivity.this, TodoDetailActivity.class);
+                intent.setData(ContentUris.withAppendedId(TodosEntry.CONTENT_URI, id));
+                startActivity(intent);
+            }
+        });
         getLoaderManager().initLoader(TODOS_LOADER, null, this);
     }
 
@@ -96,7 +107,8 @@ public class TodoListActivity extends AppCompatActivity implements LoaderManager
                 TodosEntry.COLUMN_TODO_PRIORITY,
                 TodosEntry.COLUMN_TODO_DATE_CREATED,
                 TodosEntry.COLUMN_TODO_DATE_DUE,
-                TodosEntry.COLUMN_TODO_CATEGORY
+                TodosEntry.COLUMN_TODO_CATEGORY,
+                TodosEntry.COLUMN_TODO_COMPLETED
         };
     }
 

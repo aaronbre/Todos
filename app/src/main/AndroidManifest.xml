@@ -27,7 +27,11 @@
             android:authorities="com.example.aaronbrecher.todos"
             android:exported="false" />
 
-        <activity android:name=".TodoDetailActivity"></activity>
+        <activity
+            android:name=".TodoDetailActivity"
+            android:parentActivityName=".TodoListActivity">
+
+        </activity>
     </application>
 
 </manifest>

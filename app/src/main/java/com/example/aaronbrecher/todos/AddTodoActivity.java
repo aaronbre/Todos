@@ -111,13 +111,13 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { mCategory = TodoContract.TodosEntry.CATEGORY_OTHER;}
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
     }
 
     /**
      * Funciton to add the todos to the database
-     * TODO implement this function
+     *
      */
     private void insertTodo(){
         String todoTitle = mTitleText.getText().toString().trim();
@@ -126,7 +126,7 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
         boolean todoCompleted = false;
         //parse the priority to get an intger number if the field is empty will be null
         //in that case will set to default of 0
-        Integer todoPriority = parsePriority(mDescriptionText.getText().toString());
+        Integer todoPriority = parsePriority(mPriorityText.getText().toString().trim());
         if(todoPriority == null) todoPriority = 0;
         ContentValues values = createContentValues(todoTitle, todoDescription, todoPriority, todoDateStart, mUnixDueDate);
         Uri uri = getContentResolver().insert(TodoContract.TodosEntry.CONTENT_URI, values);
@@ -166,6 +166,7 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
         values.put(TodoContract.TodosEntry.COLUMN_TODO_PRIORITY, priority);
         values.put(TodoContract.TodosEntry.COLUMN_TODO_DATE_CREATED, startDate);
         values.put(TodoContract.TodosEntry.COLUMN_TODO_DATE_DUE, dueDate);
+        values.put(TodoContract.TodosEntry.COLUMN_TODO_CATEGORY, mCategory);
         values.put(TodoContract.TodosEntry.COLUMN_TODO_COMPLETED, false);
         return values;
     }
@@ -198,8 +199,6 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
 
     /**
      * capture the date from the dateDialogFragment to use it in this activity
-     * TODO get the date in a textual format to set the textField, and get the date UNIX code to be used in the database
-     * @param view
      * @param year
      * @param month
      * @param dayOfMonth

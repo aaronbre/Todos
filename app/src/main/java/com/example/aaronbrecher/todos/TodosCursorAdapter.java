@@ -2,6 +2,7 @@ package com.example.aaronbrecher.todos;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.example.aaronbrecher.todos.data.TodoContract.TodosEntry;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 /**
  * Created by aaronbrecher on 2/1/18.
@@ -35,26 +37,25 @@ public class TodosCursorAdapter extends CursorAdapter {
         TextView tvPriority = view.findViewById(R.id.list_item_priority);
         TextView tvDateCreated = view.findViewById(R.id.list_item_date_created);
         TextView tvCategory = view.findViewById(R.id.list_item_category);
-        TextView tvDateDue = view.findViewById(R.id.list_item_date_due);
 
         //get all the data from the cursors some will need additional formatting
         String title = cursor.getString(cursor.getColumnIndex(TodosEntry.COLUMN_TODO_TITLE));
 
         //gets a string for the category using custom function
-        String category = getCategoryString(cursor.getInt(cursor.getColumnIndex(TodosEntry.COLUMN_TODO_CATEGORY)));
+        int categoryNum = cursor.getInt(cursor.getColumnIndex(TodosEntry.COLUMN_TODO_CATEGORY));
+        String category = getCategoryString(categoryNum);
+        int categoryColor = getColor(categoryNum, context);
         int priority = cursor.getInt(cursor.getColumnIndex(TodosEntry.COLUMN_TODO_PRIORITY));
-        long dateC = cursor.getLong(cursor.getColumnIndex(TodosEntry.COLUMN_TODO_DATE_CREATED));
         long dateD = cursor.getLong(cursor.getColumnIndex(TodosEntry.COLUMN_TODO_DATE_DUE));
         //format the dates to a string
-        String dateCreated = formatDate(dateC);
         String dateDue = formatDate(dateD);
 
         //perform the actual binding of the views to the data
         tvTitle.setText(title);
         tvPriority.setText(String.valueOf(priority));
-        tvDateCreated.setText(dateCreated);
-        tvDateDue.setText(dateDue);
+        tvDateCreated.setText("Due - " + dateDue);
         tvCategory.setText(category);
+        tvCategory.setBackgroundColor(categoryColor);
     }
 
     /**
@@ -86,6 +87,31 @@ public class TodosCursorAdapter extends CursorAdapter {
                 category = "Other";
         }
         return category;
+    }
+
+    int getColor( int category, Context context){
+        int resourceColor;
+        switch (category){
+            case TodosEntry.CATEGORY_FINANCES:
+                resourceColor = R.color.categoryColorFinance;
+                break;
+            case TodosEntry.CATEGORY_FIXING:
+                resourceColor = R.color.categoryColorFixing;
+                break;
+            case TodosEntry.CATEGORY_HOME:
+                resourceColor = R.color.categoryColorHome;
+                break;
+            case TodosEntry.CATEGORY_SHOPPING:
+                resourceColor = R.color.categoryColorShopping;
+                break;
+            case TodosEntry.CATEGORY_WORK:
+                resourceColor = R.color.categoryColorWork;
+                break;
+            case TodosEntry.CATEGORY_OTHER:
+            default:
+                resourceColor = R.color.categoryColorOther;
+        }
+        return ContextCompat.getColor(context, resourceColor);
     }
 
     /**

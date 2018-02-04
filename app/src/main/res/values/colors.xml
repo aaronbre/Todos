@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--colors for the categories-->
+    <color name="categoryColorHome">#03A9F4</color>
+    <color name="categoryColorFinance">#4CAF50</color>
+    <color name="categoryColorWork">#795548</color>
+    <color name="categoryColorShopping">#673AB7</color>
+    <color name="categoryColorOther">#C51162</color>
+    <color name="categoryColorFixing">#455A64</color>
 </resources>
