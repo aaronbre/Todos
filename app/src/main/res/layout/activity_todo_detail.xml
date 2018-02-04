@@ -7,39 +7,135 @@
     android:padding="16dp"
     tools:context="com.example.aaronbrecher.todos.TodoDetailActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/details_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/details_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="16dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:text="Do the laundry" />
+
+        <TextView
+            android:id="@+id/details_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@android:color/white"
+            tools:background="@color/colorAccent"
+            tools:text="Home"/>
+
+        <TextView
+            android:id="@+id/details_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/details_title"
+            android:lineSpacingExtra="5sp"
+            android:textSize="16sp"
+            tools:text="A long description will go here explaining all the details about the todo it can span multiple lines Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/meta_details_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/details_container">
+
+        <TextView
+            android:id="@+id/details_label_date_due"
+            style="@style/TodoDetailsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/details_label_date_due" />
+
+        <TextView
+            android:id="@+id/details_date_due"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Feb 4 2018"
+            android:layout_below="@+id/details_label_date_due"/>
+
+        <TextView
+            android:id="@+id/details_label_date_created"
+            style="@style/TodoDetailsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/details_label_date_created"
+            android:layout_below="@id/details_date_due"/>
+
+        <TextView
+            android:id="@+id/details_date_created"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Feb 1 2018"
+            android:layout_below="@+id/details_label_date_created"/>
+
+
+
+
+        <TextView
+            android:id="@+id/details_priority_label"
+            style="@style/TodoDetailsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prority"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/details_priority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1"
+            android:layout_below="@id/details_priority_label"
+            android:layout_alignStart="@id/details_priority_label"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/buttons_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintRight_toRightOf="parent">
 
         <Button
+            android:id="@+id/details_button_edit"
+            style="@style/TodoDetailsButtons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TodoDetailsButtons"
-            android:text="@string/details_button_edit"/>
+            android:text="@string/details_button_edit" />
 
         <Button
+            android:id="@+id/details_button_delete"
+            style="@style/TodoDetailsButtons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TodoDetailsButtons"
-            android:text="@string/details_button_edit"/>
+            android:text="@string/details_button_delete" />
 
         <Button
+            android:id="@+id/details_button_mark_complete"
+            style="@style/TodoDetailsButtons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TodoDetailsButtons"
-            android:text="@string/details_button_mark_complete"/>
+            android:text="@string/details_button_mark_complete" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

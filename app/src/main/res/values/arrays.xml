@@ -2,11 +2,11 @@
 <resources>
     <!--category options to be displayed in the category spinner-->
     <string-array name="array_category_options">
-        <item>@string/category_finances</item>
-        <item>@string/category_fixing</item>
-        <item>@string/category_home</item>
         <item>@string/category_other</item>
-        <item>@string/category_shopping</item>
         <item>@string/category_work</item>
+        <item>@string/category_home</item>
+        <item>@string/category_shopping</item>
+        <item>@string/category_fixing</item>
+        <item>@string/category_finances</item>
     </string-array>
 </resources>

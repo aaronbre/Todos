@@ -2,7 +2,11 @@ package com.example.aaronbrecher.todos;
 
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,7 +30,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.zip.Inflater;
 
-public class AddTodoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class AddTodoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, LoaderManager.LoaderCallbacks<Cursor>{
+
+    private final int TODO_EDITOR_LOADER = 2;
 
     private EditText mTitleText;
     private EditText mDescriptionText;
@@ -37,6 +43,7 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
 
     private Spinner mCategorySpinner;
     private int mCategory;
+    private Uri mCurrentTodoUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +73,17 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
                 }
             }
         });
+
+        //Get the Uri if we are editting the todo
+        mCurrentTodoUri = getIntent().getData();
+
+        if(mCurrentTodoUri == null){
+            setTitle("Create new Todo");
+        }
+        else {
+           setTitle("Edit Todo");
+           getLoaderManager().initLoader(TODO_EDITOR_LOADER, null, this);
+        }
     }
 
     private void setUpSpinner(){
@@ -210,5 +228,61 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
         Calendar calendar = new GregorianCalendar(year,month,dayOfMonth);
         mUnixDueDate = calendar.getTimeInMillis()/1000;
         Log.d("DATE", "onDateSet: " + mUnixDueDate);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        switch (id){
+            case TODO_EDITOR_LOADER:
+                return new CursorLoader(
+                        AddTodoActivity.this,
+                        mCurrentTodoUri,
+                        getProjection(),
+                        null,
+                        null,
+                        null
+                );
+            default:
+                return null;
+        }
+    }
+
+    private String[] getProjection(){
+        return new String[]{
+                TodoContract.TodosEntry.COLUMN_TODO_TITLE,
+                TodoContract.TodosEntry.COLUMN_TODO_DESCRIPTION,
+                TodoContract.TodosEntry.COLUMN_TODO_CATEGORY,
+                TodoContract.TodosEntry.COLUMN_TODO_PRIORITY,
+                TodoContract.TodosEntry.COLUMN_TODO_DATE_DUE
+        };
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if(data.moveToFirst()){
+            int titleIndex = data.getColumnIndex(TodoContract.TodosEntry.COLUMN_TODO_TITLE);
+            mTitleText.setText(data.getString(titleIndex));
+
+            int descriptionIndex = data.getColumnIndex(TodoContract.TodosEntry.COLUMN_TODO_DESCRIPTION);
+            mDescriptionText.setText(data.getString(descriptionIndex));
+
+            int priorityIndex = data.getColumnIndex(TodoContract.TodosEntry.COLUMN_TODO_PRIORITY);
+            mPriorityText.setText(String.valueOf(data.getInt(priorityIndex)));
+
+            int dateDueIndex = data.getColumnIndex(TodoContract.TodosEntry.COLUMN_TODO_DATE_DUE);
+            mDueDateText.setText(Utils.formatDate(data.getLong(dateDueIndex)));
+
+            int categoryIndex = data.getColumnIndex(TodoContract.TodosEntry.COLUMN_TODO_CATEGORY);
+            setCategorySpinnerToIndex(data.getInt(categoryIndex));
+        }
+    }
+
+    private void setCategorySpinnerToIndex(int index){
+        mCategorySpinner.setSelection(index);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 }

@@ -55,5 +55,8 @@
         <string name="details_button_mark_complete">Mark Complete</string>
         <string name="details_button_delete">Delete</string>
 
+        <string name="details_label_date_due">Date due</string>
+        <string name="details_label_date_created">Date created</string>
+        <style name="details_label_priority">Priority</style>
     <!--end Details strings-->
 </resources>
