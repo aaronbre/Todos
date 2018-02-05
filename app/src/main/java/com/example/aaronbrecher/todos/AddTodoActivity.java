@@ -137,7 +137,7 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
      * Funciton to add the todos to the database
      *
      */
-    private void insertTodo(){
+    private void addTodo(boolean isUpdate){
         String todoTitle = mTitleText.getText().toString().trim();
         String todoDescription = mDescriptionText.getText().toString().trim();
         long todoDateStart = System.currentTimeMillis()/1000;
@@ -147,7 +147,13 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
         Integer todoPriority = parsePriority(mPriorityText.getText().toString().trim());
         if(todoPriority == null) todoPriority = 0;
         ContentValues values = createContentValues(todoTitle, todoDescription, todoPriority, todoDateStart, mUnixDueDate);
-        Uri uri = getContentResolver().insert(TodoContract.TodosEntry.CONTENT_URI, values);
+        Uri uri = null;
+        if(!isUpdate){
+            uri = getContentResolver().insert(TodoContract.TodosEntry.CONTENT_URI, values);
+        } else{
+            getContentResolver().update(mCurrentTodoUri, values, null, null);
+        }
+
         if (uri != null) Toast.makeText(this, getString(R.string.successfull_database_add_toast) , Toast.LENGTH_SHORT).show();
         else Toast.makeText(this, getString(R.string.unsuccessfull_database_add_toast), Toast.LENGTH_SHORT).show();
 
@@ -207,8 +213,14 @@ public class AddTodoActivity extends AppCompatActivity implements DatePickerDial
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_todo_save:
-                insertTodo();
-                finish();
+                if(mCurrentTodoUri == null){
+                    addTodo(false);
+                    finish();
+                }
+                else{
+                   addTodo(true);
+                   finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
